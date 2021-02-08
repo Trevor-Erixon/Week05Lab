@@ -13,9 +13,10 @@
     </head>
     <body>
         <h1>Home Page</h1>
-        <form action="logout" method="post">
+        <form action="" method="post">
             <p>Hello ${username}</p><br>
-            <a href="login.jsp">Log out</a>
+            <p>${WelcomeMessage}</p><br>
+            <a href="/login">Log out</a>
             <input type="hidden" name="logout">
         </form>
     </body>
