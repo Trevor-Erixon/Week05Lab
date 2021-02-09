@@ -14,7 +14,7 @@
     <body>
         <h1>Login</h1>
         <form action="" method="post">
-            <p>${LogoutMessage}</p>
+            <p><b>${logoutMessage}</b></p>
             Username: <input type="text" name="username">  <i>${usernameMessage}</i><br>
             Password: <input type="password" name="password">  <i>${passwordMessage}</i><br><br>
             <input type="submit" value="Log in">

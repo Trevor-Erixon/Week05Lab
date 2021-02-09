@@ -17,6 +17,14 @@ public class HomeServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
+        String logout = (String) request.getParameter("logout");
+        
+        if (logout != null)
+        {            
+            getServletContext().getRequestDispatcher("/WEB-INF/login.jsp")
+                .forward(request, response);
+        }
+        
         getServletContext().getRequestDispatcher("/WEB-INF/home.jsp")
                 .forward(request, response);
         

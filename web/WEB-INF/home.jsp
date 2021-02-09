@@ -13,11 +13,10 @@
     </head>
     <body>
         <h1>Home Page</h1>
-        <form action="" method="post">
-            <p>Hello ${username}</p><br>
-            <p>${WelcomeMessage}</p><br>
-            <a href="/login">Log out</a>
-            <input type="hidden" name="logout">
+        <form action="" method="get">
+            <p>Hello ${username}.</p><br>
+            <a href="login?logout">Log out</a>
+            
         </form>
     </body>
 </html>
