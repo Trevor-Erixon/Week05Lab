@@ -12,11 +12,16 @@
         <title>Home Page</title>
     </head>
     <body>
-        <h1>Home Page</h1>
-        <form action="" method="get">
-            <p>Hello ${username}.</p><br>
-            <a href="login?logout">Log out</a>
-            
-        </form>
+        <h1>Home Page</h1>        
+        <p>Hello ${user.username}.</p><br>
+        <a href="login?logout">Log out</a> 
     </body>
 </html>
+
+
+<%--
+<form action="" method="get">
+            <p>Hello ${user.username}.</p><br>
+            <a href="login?logout">Log out</a> 
+        </form>
+--%>

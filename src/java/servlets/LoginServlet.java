@@ -1,7 +1,6 @@
 package servlets;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -22,28 +21,50 @@ public class LoginServlet extends HttpServlet {
         
         HttpSession session = request.getSession();
         
+        User userCheck = (User) session.getAttribute("user");
         String logout = request.getParameter("logout");
         
-        if (logout != null)
+        if (logout == null && userCheck == null)
+        {
+            getServletContext().getRequestDispatcher("/WEB-INF/login.jsp")
+                .forward(request, response);
+            return;
+        }
+        else if (logout != null)
         {
             session.invalidate();
+            
             String logoutMessage = "You have successfully logged out.";
             request.setAttribute("logoutMessage", logoutMessage);
+            logout = null;
+            
+            getServletContext().getRequestDispatcher("/WEB-INF/login.jsp")
+                .forward(request, response);            
+            return;
         }
         
-        getServletContext().getRequestDispatcher("/WEB-INF/login.jsp")
+        if (userCheck != null)
+        {
+            response.sendRedirect("home");
+            return;
+        }
+        else 
+        {
+            getServletContext().getRequestDispatcher("/WEB-INF/login.jsp")
                 .forward(request, response);
+        }
+
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        HttpSession session = request.getSession();
+        HttpSession session = request.getSession();    
         
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-        
+
         if (username.equals("") || username == null || password.equals("") || password == null)
         {
             if (username.equals("") || username == null)
@@ -60,19 +81,29 @@ public class LoginServlet extends HttpServlet {
             
             doGet(request, response);
         }
-        
-        session.setAttribute("username", username);
+
+        User user = new User(username, password);
+
+        session.setAttribute("user", user);
         
         AccountService accServ = new AccountService();
         
-        User user = accServ.login(username, password);      
+        User userValidation = accServ.login(username, password);
         
-        if (user != null)
+        if (userValidation != null)
         {
-            
+            response.sendRedirect("home");
         }
-        
-        response.sendRedirect("home");
+        else
+        {            
+            request.setAttribute("logoutMessage", "");
+            session.setAttribute("username", user.getUsername());
+            
+            String passwordMessage = "The password was incorrect. Please try again.";
+            request.setAttribute("passwordMessage", passwordMessage);
+            
+            doGet(request, response);
+        }
         
     }
 
